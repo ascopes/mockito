@@ -28,9 +28,13 @@ tasks.named("test", Test) {
         showCauses true
     }
 
+    // Prevent class sharing, it avoids a bunch of warnings regarding the boot
+    // classloader when running tests.
+    jvmArgs = ["-Xshare:off"]
+
     if (JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_17)
         && 'member-accessor-reflection' == System.getenv('MEMBER_ACCESSOR')) {
-        jvmArgs = ['--add-opens=java.base/java.lang=ALL-UNNAMED']
+        jvmArgs += ['--add-opens=java.base/java.lang=ALL-UNNAMED']
     }
 }
 
